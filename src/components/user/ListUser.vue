@@ -43,7 +43,16 @@
 
 <script>
 import UserClient from "@/client/UserClient";
+import Swal from "sweetalert2";
 
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "btn btn-success",
+    cancelButton: "btn btn-danger"
+  },
+  buttonsStyling: false
+});
 export default {
   data() {
     return {
@@ -66,14 +75,40 @@ export default {
           });
     },
 
-    deleteUser(userId) {
-      UserClient.deleteUser(userId)
-          .then(() => {
-            this.getUsers();
-          })
-          .catch(error => {
-            console.error(error);
+
+    deleteUser(id) {
+      swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          UserClient.deleteUser(id)
+              .then(() => {
+                swalWithBootstrapButtons.fire({
+                  title: "Deleted!",
+                  text: "Your User has been deleted.",
+                  icon: "success"
+                });
+                this.getUsers();
+              })
+              .catch(error => {
+                console.error(error);
+              });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            text: "Your User is safe !",
+            icon: "error"
           });
+        }
+      });
     },
     searchUsers() {
       if (this.searchKeyword.trim() !== '') {

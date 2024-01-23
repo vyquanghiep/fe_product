@@ -10,7 +10,6 @@ class UserClient {
     saveUser(userData) {
         return http.post("/user/save", userData)
     }
-
     deleteUser(id) {
         return  http.delete(`/user/${id}`)
     }

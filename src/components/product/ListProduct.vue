@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="container">
     <div >
@@ -39,6 +37,7 @@
         <td><div class="btn-group">
           <router-link class="btn btn-warning mr-2" :to="`/product/add/${item.id}`">Edit</router-link>
           <a class="btn btn-danger" @click="deleteProduct(item.id)">Delete</a>
+
         </div></td>
       </tr>
       </tbody>
@@ -49,6 +48,15 @@
 <script>
 
 import ProductClient from "@/client/ProductClient";
+import Swal from "sweetalert2";
+
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "btn btn-success",
+    cancelButton: "btn btn-danger"
+  },
+  buttonsStyling: false
+});
 
 export default {
   data() {
@@ -72,13 +80,38 @@ export default {
     },
 
     deleteProduct(id) {
-      ProductClient.deleteProduct(id)
-          .then(() => {
-            this.getProducts();
-          })
-          .catch(error => {
-            console.error(error);
+      swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          ProductClient.deleteProduct(id)
+              .then(() => {
+                swalWithBootstrapButtons.fire({
+                  title: "Deleted!",
+                  text: "Your product has been deleted.",
+                  icon: "success"
+                });
+                this.getProducts();
+              })
+              .catch(error => {
+                console.error(error);
+              });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            text: "Your product is safe !",
+            icon: "error"
           });
+        }
+      });
     },
     searchProducts() {
       if (this.searchKeyword.trim() !== '') {

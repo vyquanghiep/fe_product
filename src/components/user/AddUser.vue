@@ -34,6 +34,8 @@
 <script>
 
 import UserClient from "@/client/UserClient";
+import swal from "sweetalert2";
+
 
 export default {
   data() {
@@ -69,8 +71,18 @@ export default {
       if (this.editMode) {
         this.updateUser(this.dataForm)
             .then(() => {
+
               console.log('User updated successfully:', this.dataForm);
               this.navigateToUserPage();
+              swal.fire({
+                title: "Update!",
+                text: "User has been update.",
+                icon: "success",
+                confirmButtonText: "OK",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              });
             })
             .catch(error => {
               console.error('Error updating user:', error);
@@ -90,6 +102,7 @@ export default {
     updateUser(userData) {
       return UserClient.saveUser(userData)
           .then(() => {
+
             console.log('User updated successfully');
           })
           .catch(error => {

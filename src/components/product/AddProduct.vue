@@ -2,7 +2,6 @@
 <template>
   <div class="container" >
     <h1>{{ editMode ? 'Edit Product' : 'Create New Product' }}</h1>
-
     <hr>
     <form action="#"  @submit.prevent="formSubmit"   method="POST">
 
@@ -27,6 +26,10 @@
         <input type="text" placeholder="url" class="form-control mb-4 col-4" v-model="dataForm.url">
       </div>
       <div class="form-group">
+        <label for="image">Image:</label>
+        <input type="file" id="image" @change="handleFileChange">
+      </div>
+      <div class="form-group">
 
         <input type="text" placeholder="typeproduct" class="form-control mb-4 col-4" v-model="dataForm.typeproduct">
       </div>
@@ -40,6 +43,7 @@
 </template>
 <script>
 import ProductClient from "@/client/ProductClient";
+import swal from "sweetalert2";
 
 export default{
   data(){
@@ -54,7 +58,6 @@ export default{
         url: '',
         typeproduct:'',
       }
-
     }
   },
   created() {
@@ -80,6 +83,15 @@ export default{
             .then(() => {
               console.log('Product updated successfully:', this.dataForm);
               this.navigateToProductPage();
+              swal.fire({
+                title: "Update!",
+                text: "Product has been update.",
+                icon: "success",
+                confirmButtonText: "OK",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              });
             })
             .catch(error => {
               console.error('Error updating product:', error);
