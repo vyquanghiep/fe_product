@@ -1,54 +1,50 @@
 <template>
   <div class="container">
-    <div >
-      <h1 >Product Management</h1>
+    <div>
+      <h1>User Management</h1>
     </div>
-    <router-link class="btn btn-success" to="/product/add">Add Product</router-link>
+    <router-link class="btn btn-success" to="/user/add">Add User</router-link>
     <hr>
-    <form @submit.prevent="searchProducts" method="get">
-      <input type="text" v-model="searchKeyword" placeholder="Tìm kiếm sản phẩm" size="50">
+
+    <form @submit.prevent="searchUsers" method="get">
+      <input type="text" v-model="searchKeyword" placeholder="Tìm kiếm user" size="50">
       <button type="submit" class="btn btn-info">Search</button>
       <a class="btn btn-info" @click="resetSearch">Reset</a>
     </form>
-
     <table class="table table-bordered">
       <thead class="table-dark">
       <tr>
-        <th>ProductId</th>
+        <th>UserId</th>
         <th>Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Decription</th>
-        <th>Image</th>
-        <th>Type</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Phone</th>
         <th>Action</th>
       </tr>
       </thead>
-
       <tbody>
-      <tr v-for="item in product" :key="item.id">
+      <tr v-for="item in user" :key="item.id">
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
-        <td>{{ item.price }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.decription }}</td>
-        <td><img :src="item.url" alt="Product Image" style="max-width: 100px; max-height: 100px;"></td>
-        <td>{{ item.typeproduct }}</td>
-        <td><div class="btn-group">
-          <router-link class="btn btn-warning mr-2" :to="`/product/add/${item.id}`">Edit</router-link>
-          <a class="btn btn-danger" @click="deleteProduct(item.id)">Delete</a>
-
-        </div></td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.password }}</td>
+        <td>{{ item.phone }}</td>
+        <td>
+          <div class="btn-group">
+            <router-link :to="`/user/add/${item.id}`" class="btn btn-warning mr-2">Edit</router-link>
+            <a class="btn btn-danger" @click="deleteUser(item.id)">Delete</a>
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>
-
   </div>
 </template>
-<script>
 
-import ProductClient from "@/client/ProductClient";
+<script>
+import UserClient from "@/client/UserClient";
 import Swal from "sweetalert2";
+
 
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
@@ -57,29 +53,30 @@ const swalWithBootstrapButtons = Swal.mixin({
   },
   buttonsStyling: false
 });
-
 export default {
   data() {
     return {
-      product: [],
+      user: [],
       searchKeyword: ''
-    }
+    };
   },
-  mounted() {
-    this.getProducts();
+  created() {
+    this.getUsers();
   },
+
   methods: {
-    getProducts() {
-      ProductClient.getProducts()
+    getUsers() {
+      UserClient.getUsers()
           .then(response => {
-            this.product = response.data;
+            this.user = response.data;
           })
           .catch(error => {
             console.error(error);
           });
     },
 
-    deleteProduct(id) {
+
+    deleteUser(id) {
       swalWithBootstrapButtons.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -91,14 +88,14 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
 
-          ProductClient.deleteProduct(id)
+          UserClient.deleteUser(id)
               .then(() => {
                 swalWithBootstrapButtons.fire({
                   title: "Deleted!",
-                  text: "Your product has been deleted.",
+                  text: "Your User has been deleted.",
                   icon: "success"
                 });
-                this.getProducts();
+                this.getUsers();
               })
               .catch(error => {
                 console.error(error);
@@ -107,17 +104,17 @@ export default {
 
           swalWithBootstrapButtons.fire({
             title: "Cancelled",
-            text: "Your product is safe !",
+            text: "Your User is safe !",
             icon: "error"
           });
         }
       });
     },
-    searchProducts() {
+    searchUsers() {
       if (this.searchKeyword.trim() !== '') {
-        ProductClient.searchProducts(this.searchKeyword)
+        UserClient.searchUsers(this.searchKeyword)
             .then(response => {
-              this.product = response.data;
+              this.user = response.data;
             })
             .catch(error => {
               console.error(error);
@@ -127,15 +124,12 @@ export default {
 
     resetSearch() {
       this.searchKeyword = '';
-      this.getProducts();
+      this.getUsers();
     }
-
   },
-
-}
+};
 </script>
+
 <style scoped>
-
-
 
 </style>

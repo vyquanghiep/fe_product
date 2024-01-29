@@ -16,6 +16,16 @@ class ProductClient {
     searchProducts(keyword) {
         return http.get(`/product/byKeyword?keyword=${keyword}`);
     }
+    uploadImage(productId, file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        return http.post(`/product/${productId}/uploadImage`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+    }
 }
 
 export default new ProductClient();

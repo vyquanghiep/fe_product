@@ -3,24 +3,23 @@
     <div>
       <h1>{{ editMode ? 'Edit User' : 'Create New User' }}</h1>
     </div>
-
     <hr>
     <form action="#" @submit.prevent="formSubmit" method="POST">
       <div class="form-group">
         <input type="hidden" v-model="dataForm.id">
-        <input type="text" placeholder="Name" class="form-control mb-4 col-4" v-model="dataForm.name">
+        <input type="text" placeholder="Name" class="form-control mb-4 col-4" v-model="dataForm.name" required>
       </div>
 
       <div class="form-group">
-        <input type="text" placeholder="Email" class="form-control mb-4 col-4" v-model="dataForm.email">
+        <input type="text" placeholder="Email" class="form-control mb-4 col-4" v-model="dataForm.email" required>
       </div>
 
       <div class="form-group">
-        <input type="password" placeholder="Password" class="form-control mb-4 col-4" v-model="dataForm.password">
+        <input type="password" placeholder="Password" class="form-control mb-4 col-4" v-model="dataForm.password" required>
       </div>
 
       <div class="form-group">
-        <input type="text" placeholder="Phone" class="form-control mb-4 col-4" v-model="dataForm.phone">
+        <input type="text" placeholder="Phone" class="form-control mb-4 col-4" v-model="dataForm.phone" required>
       </div>
 
       <div class="btn-group">
@@ -50,7 +49,7 @@ export default {
       }
     };
   },
-  created() {
+  mounted() {
     const userId = this.$route.params.id;
     if (userId) {
       this.editMode = true;

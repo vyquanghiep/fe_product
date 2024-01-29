@@ -1,30 +1,37 @@
 <template>
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-  <div class="container">
-    <ul class="navbar-nav">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+    <a class="navbar-brand" href="#">Shop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link class="nav-link" to="/product">Product</router-link>
+          <router-link class="nav-link" to="/">Trang chủ</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/user">User</router-link>
+          <router-link class="nav-link" to="/product">QL Sản phẩm</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/homepage">Home Page</router-link>
+          <router-link class="nav-link" to="/user">QL Người dùng</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/cart">CartProduct</router-link>
+          <router-link class="nav-link" to="/cart">Giỏ hàng</router-link>
         </li>
-    </ul>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
+
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
         <router-link class="login-btn btn btn-outline-success my-2 my-sm-0 " to="/login">
           Login
         </router-link>
-      </li>
-    </ul>
-  </div>
-</nav>
+      </form>
+    </div>
+    </div>
+  </nav>
+
 
 <router-view></router-view>
 

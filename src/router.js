@@ -1,18 +1,31 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Login_form from "@/components/LoginForm.vue";
-import HomePage from "@/components/HomePage.vue";
-import CartProduct from "@/components/CartProduct.vue";
-import ListProduct from "@/components/product/ListProduct.vue";
-import AddUser from "@/components/user/AddUser.vue";
-import ListUser from "@/components/user/ListUser.vue";
-import AddProduct from "@/components/product/AddProduct.vue";
+import LoginForm from "@/components/LoginForm.vue";
+import HomePage from "@/components/pages/HomePage.vue";
+import CartProduct from "@/components/pages/CartProduct.vue";
+import ProductDetail from "@/components/pages/ProductDetails.vue";
+import ListProduct from "@/components/admin/product/ListProduct.vue";
+import AddUser from "@/components/admin/user/AddUser.vue";
+import ListUser from "@/components/admin/user/ListUser.vue";
+import AddProduct from "@/components/admin/product/AddProduct.vue";
+
 
 const routes = [
     {
-        path: '/homepage',
+        path: '/',
         name:'HomePage',
         component: HomePage
+    },
+    {   path: '/homepage/:id',
+        name: ' HomepageWithId',
+        component: HomePage,
+        props: true,
+    },
+
+    {
+        path: '/product/detail/:id',
+        name:'ProductDetails',
+        component: ProductDetail
     },
     {
         path: '/cart',
@@ -21,9 +34,10 @@ const routes = [
     },
     {
         path: '/login',
-        name:'Login_form',
-        component: Login_form
+        name:'LoginForm ',
+        component: LoginForm
     },
+
     {
         path: '/product',
         name:'ListProduct',
