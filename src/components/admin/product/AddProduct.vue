@@ -19,8 +19,8 @@
         <input type="text" placeholder="decription" class="form-control mb-4 col-4" v-model="dataForm.decription" required>
       </div>
       <div class="form-group">
-        <input type="hidden" placeholder="url" class="form-control mb-4 col-4" v-model="dataForm.url" required>
-        <input type="file" @change="handleImageChange"  class="form-control mb-4 col-4">
+        <input type="text" placeholder="url" class="form-control mb-4 col-4" v-model="dataForm.url" required>
+
       </div>
 
       <p>Category: </p>
